@@ -37,7 +37,7 @@ function recive_postID_get_user_info(){
       title_username.innerHTML=post.author.username;
       image.src=post.author.profile_image;
       comments_count.innerHTML=`${post.comments_count} Comments`;
-      username.innerHTML=post.author.username
+      username.innerHTML=`#${post.author.username}`
       Name.innerHTML=post.author.name
       posts_count.innerHTML=`${post_counter} Posts`;
       
