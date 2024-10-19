@@ -20,8 +20,10 @@ return id;
 
 function Create_post_Details_Request(){
   let ID=get_url_parms();
+  toggleLoader(true);
   axios.get(`https://tarmeezacademy.com/api/v1/posts/${ID}`)
   .then((response)=>{
+    toggleLoader(false);
    let info=response.data.data;
    h1_Details.innerHTML=`${info.author.username} Post`;
    username_Details.innerHTML=info.author.username;
