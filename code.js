@@ -3,10 +3,14 @@ let personal_account_img=document.getElementById("personal-account-img");
 let username_account =document.getElementById("username-account");
 let add_edit_post_btn=document.getElementById("add-edit-post-btn")
 
+// user log in info
+let token = localStorage.getItem("Token");
+let user=JSON.parse(localStorage.getItem("User"));
+
+
 
 function SetupUI(){
-  let token = localStorage.getItem("Token");
-  let user=JSON.parse(localStorage.getItem("User"));
+
   let login_register_div = document.getElementById("login-register-div");
   let logout_div = document.getElementById("logout-div");
   let personal_data=document.getElementById("personal-data");
@@ -40,14 +44,13 @@ function SetupUI(){
 
 
 
+
 function Register_clicked() {
-     
        
   let Name = document.getElementById("Register-name").value;
   let username = document.getElementById("Register-username").value;
   let password = document.getElementById("Register-password").value;
   let Register_Image=document.getElementById("Register-Image").files[0];
-  let testImage=document.getElementById("test").files[0];
 
   
   let formdata=new FormData();
@@ -107,8 +110,6 @@ function login_clicked() {
       ShowAlert(`${error.response.data.message}`,'danger');
       toggleLoader(false)
     });
-    
-   
 }
 
 
@@ -169,7 +170,6 @@ function ShowAlert(customMessage,tyype,duration = 3000) {
     }, duration);
   };
   appendAlert(customMessage, tyype)
-
 }
 
 
@@ -177,7 +177,6 @@ function ShowAlert(customMessage,tyype,duration = 3000) {
 
 
 function create_new_post() {
-  let token = localStorage.getItem("Token");
 
   let Title_Post = document.getElementById("Title-Post").value;
   let Image_Post = document.getElementById("Image-Post").files[0];
@@ -246,6 +245,8 @@ function getCurrentUser(){
 
 
 
+
+
 let yes_delete_btn=document.getElementById("yes-delete-btn")
 let No_delete_btn=document.getElementById("No-delete-btn")
 
@@ -268,7 +269,6 @@ function delete_Post(authorID,postID){
  
   let error1="";
   let user=getCurrentUser();
-  let token=localStorage.getItem("Token");
 
   toggleLoader(true);
     if(user.id===authorID){
@@ -364,9 +364,7 @@ function toggleLoader(show){
   }else{
     Loader_container.style.visibility="hidden";
   }
-  // Loader_container.style.display = show ? "flex" : "none"; 
 }
-
 
 
 
