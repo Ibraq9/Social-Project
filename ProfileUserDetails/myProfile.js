@@ -19,23 +19,27 @@ function recive_postID_get_user_info(){
 
 
 
-
   function Get_user_Posts() {
     
-    let user=JSON.parse(localStorage.getItem("User"));
-    let ID=recive_postID_get_user_info();
+        let user=JSON.parse(localStorage.getItem("User"));
+        let ID=recive_postID_get_user_info();
 
-    toggleLoader(true);
+        toggleLoader(true);
 
-    // first request to user profile info
-    axios.get(`https://tarmeezacademy.com/api/v1/users/${ID}`)
-    .then((response) => {
+        // first request to user profile info
+        axios.get(`https://tarmeezacademy.com/api/v1/users/${ID}`)
+        .then((response) => {
 
-    let info = response.data.data;
-    toggleLoader(false)
-    console.log(response)
+        let info = response.data.data;
+        toggleLoader(false)
+    
+        if(info.posts_count===0){
+          title_username.innerHTML="There are no posts yet";
+        }else{
+          title_username.innerHTML=`${info.username} :`;
+        }
 
-         title_username.innerHTML=`${info.username} :`;
+        
          image.src=info.profile_image;
          comments_count.innerHTML=`${info.comments_count} Comments`;
          username.innerHTML=`#${info.username}`
@@ -71,7 +75,7 @@ function recive_postID_get_user_info(){
             let varible = `
          <div class="card shadow-lg">
           <div class="card-header d-flex justify-content-between ">
-            <div>
+            <div onclick="get_user_info('${encodeURIComponent(JSON.stringify(post))}')">
              <img src="${post.author.profile_image}" class=" shadow-lg rounded-5" style="width: 40px; height: 40px; border: grey 1px solid;"/>
              <b>${post.author.username}</b>
             </div>

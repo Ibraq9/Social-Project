@@ -51,30 +51,3 @@ body{
     align-items: center; 
      margin: auto; 
 }
-
-
-
-
-@media (max-width:600px){
-
-  #nav-bar-col-9{
-    width: 100%;
-  }
-
-  #Cards{
-    width: 100%;
-  }
-
-  #userID-posts{
-    width: 100%;
-  }
-
-  #user-info{
-    width: 100%;
-  }
-
-  #image{
-    height: 50%;
-  }
-
-}

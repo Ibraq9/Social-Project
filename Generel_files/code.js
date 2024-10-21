@@ -74,6 +74,9 @@ function Register_clicked() {
       SetupUI();
       ShowAlert("Nice ,you Registerd successfully",'success');  
       toggleLoader(false)
+      setTimeout(() => {
+        window,location.reload(true)
+      }, 1000);
     })
     .catch((error) => {
       ShowAlert(`${error.message}`,'danger');
@@ -105,6 +108,9 @@ function login_clicked() {
       close_model("exampleModal");
       ShowAlert('Nice, you login Successfully','success');
       toggleLoader(false)
+      setTimeout(() => {
+        window,location.reload(true)
+      }, 1000);
     })
     .catch((error) => {
       ShowAlert(`${error.response.data.message}`,'danger');
@@ -133,8 +139,7 @@ function logout_clicked() {
   localStorage.clear();
   SetupUI();
   ShowAlert('you logged out Successfully','success');
-  profile_licked()
-  check_if_profilePage_to_log_out();
+  go_to_homePage();
 }
 
 
@@ -318,7 +323,8 @@ function edit_post_clicked(postObject) {
 
 function Post_Details_clicked(id){
   let PostID=id;
-  window.location=`PostDetails.html?postID=${PostID}`;
+  //window.location=`PostDetails_Comment/PostDetails.html?postID=${PostID}`;
+  window.location=`../PostDetails_Comment/PostDetails.html?postID=${PostID}`;
   }
 
 
@@ -327,7 +333,8 @@ function Post_Details_clicked(id){
 function get_user_info(PostObject){
   let post =JSON.parse(decodeURIComponent(PostObject));
 
-  window.location=`myProfile.html?userID=${post.author.id}`;
+  //window.location=`myProfile.html?userID=${post.author.id}`;
+  window.location=`../ProfileUserDetails/myProfile.html?userID=${post.author.id}`;
 }
 
 
@@ -335,24 +342,16 @@ function get_user_info(PostObject){
 function profile_licked(){
    let currentUser=getCurrentUser();
  
-  if(currentUser !== null){
-    window.location=`myProfile.html?userID=${currentUser.id}`;
+  if(currentUser !== null){ 
+    window.location=`../ProfileUserDetails/myProfile.html?userID=${currentUser.id}`;
   }else{
     ShowAlert("log in first","danger");
   }
 }
 
 
-function check_if_profilePage_to_log_out(){
-
-  let currentUser=getCurrentUser();
- 
-  if(currentUser !== null){
-    window.location=`myProfile.html?userID=${currentUser.id}`;
-  }else{
-    window.location="home.html";
-  }
-
+function go_to_homePage(){
+    window.location="../HomePostsPage/home.html";
 }
 
 
@@ -370,6 +369,6 @@ function toggleLoader(show){
 
 
 SetupUI();
-   
+
    
 

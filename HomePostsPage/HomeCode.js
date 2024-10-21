@@ -9,7 +9,7 @@ let edit_own_post_btn=document.getElementById("edit-own-post-btn")
 let currentPage=1;
 let lastPage=1;
 
-
+// Loader To improve user experience
 window.addEventListener("scroll",()=>{
 
   let endOfPage=window.innerHeight+window.scrollY>=document.body.scrollHeight;
@@ -19,6 +19,7 @@ window.addEventListener("scroll",()=>{
     Get_Posts(currentPage);
   }
 })
+
 
 
 
