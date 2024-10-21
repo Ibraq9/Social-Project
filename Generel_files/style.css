@@ -51,3 +51,21 @@ body{
     align-items: center; 
      margin: auto; 
 }
+
+
+
+#image {
+  width: 100%; /* Let the width take the full width of its parent */
+  max-width: 200px; /* Set a maximum width for larger screens */
+  height: auto; /* Keep aspect ratio */
+  border-radius: 50%; /* Make the image circular */
+  object-fit: cover; /* Ensure the image fits within the circular frame */
+  box-shadow: grey 5px 2px 6px; /* Existing shadow */
+}
+
+
+@media (max-width:768px){
+  #image{
+    border-radius: 0;
+  }
+}
