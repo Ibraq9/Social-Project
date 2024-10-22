@@ -110,7 +110,7 @@ function login_clicked() {
       ShowAlert('you login Successfully', 'success');
       toggleLoader(false)
       setTimeout(() => {
-        window, location.reload(true)
+        window.location.reload(true)
       }, 1000);
     })
     .catch((error) => {
@@ -382,7 +382,7 @@ function profile_clicked() {
 
 
 function go_to_homePage() {
-  window.location = "../HomePostsPage/home.html";
+  window.location = "../HomePostsPage/index.html";
 }
 
 
