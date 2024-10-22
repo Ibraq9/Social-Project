@@ -10,7 +10,8 @@ let comments = document.getElementById("comments");
 let Add_comment = document.getElementById("Add-comment");
 
 
-function get_url_parms() {
+
+function get_url_parms_postID() {
   let urlparms = new URLSearchParams(window.location.search);
   let id = urlparms.get("postID");
   return id;
@@ -22,9 +23,9 @@ function get_url_parms() {
 
 
 
-
 function Create_post_Details_Request() {
-  let ID = get_url_parms();
+  let ID = get_url_parms_postID();
+
   toggleLoader(true);
   axios.get(`https://tarmeezacademy.com/api/v1/posts/${ID}`)
     .then((response) => {
@@ -32,14 +33,25 @@ function Create_post_Details_Request() {
       toggleLoader(false);
       let info = response.data.data;
 
+
       let commentContent = "";
       for (let comment of info.comments) {
+
         commentContent += `
     <div class="my-3">
-     <img src="${comment.author.profile_image}" style="width:40px; height:40px; border-radius: 50%;"/>
-     <span>${comment.author.username}</span>
-     <p>${comment.body}</p>
+    <div>
+
+     <div>
+      <img src="${comment.author.profile_image}" style="width:40px; height:40px; border-radius: 50%;"/>
+      <span>${comment.author.username}</span>
+     </div>
+     
+     <div>
+      <p>${comment.body}</p>
+     </div>
+
      <hr/>
+
    </div>
     `;
       }
@@ -57,11 +69,13 @@ function Create_post_Details_Request() {
               <h1 id="h1-Details">${info.author.username} Post</h1>
             </div>
 
-            <div class="card shadow-lg" style="cursor: pointer;">
-              <div class="card-header" onclick="get_user_info('${encodeURIComponent(JSON.stringify(info))}')">
+            <div class="card shadow-lg" >
+              <div class="card-header" onclick="get_user_info('${encodeURIComponent(JSON.stringify(info))}')" style="cursor: pointer;">
                 <img id="profile-Image" src="${info.author.profile_image}" class=" shadow-lg rounded-5" style="width: 40px; height: 40px; border: grey 1px solid;"/>
                 <b id="username-Details">${info.author.username}</b>
               </div>
+
+
               <div class="card-body">
                 <img id="post-Image" src=${info.image} class="w-100" style="height: 450px;"/>
                 <p id="created-at-Details" class="card-title" style="color: rgb(130, 128, 128);">${info.created_at}</p>
@@ -87,7 +101,7 @@ function Create_post_Details_Request() {
 
                   <div id="Add-comment" class="d-flex">
                     <input id="inputCmmentcontent" type="text" placeholder="Add Comment" style="width: 100%; height: 35px; text-decoration: none; border: none; padding: 10px; "/>
-                    <button id="Add" onclick="add_comment_clicked()" type="button" class="btn btn-primary">Add</button>
+                    <button id="Add" onclick="add_comment_clicked()" type="button" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
                   </div>
   
                 </div>
@@ -104,8 +118,8 @@ function Create_post_Details_Request() {
 
       inputCmmentcontent.addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
-          event.preventDefault();  
-          Add.click();  
+          event.preventDefault();
+          Add.click();
         }
       });
 
@@ -129,7 +143,7 @@ function add_comment_clicked() {
 
   let token = localStorage.getItem("Token");
   let comment = document.getElementById("inputCmmentcontent").value;
-  let id = get_url_parms();
+  let id = get_url_parms_postID();
   toggleLoader(true);
   axios.post(`https://tarmeezacademy.com/api/v1/posts/${id}/comments`,
     {
@@ -141,7 +155,10 @@ function add_comment_clicked() {
         "Authorization": `Bearer ${token}`
       }
     }).then((response) => {
-      window.location.reload(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 1000);
+
       ShowAlert('Comment Added', 'success');
       toggleLoader(false)
     }).catch((err) => {

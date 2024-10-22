@@ -1,20 +1,20 @@
 
-let title_post=document.getElementById("Title-Post");
-let Body_post=document.getElementById("Body-Post");
-let Image_post=document.getElementById("Image-Post");
+let title_post = document.getElementById("Title-Post");
+let Body_post = document.getElementById("Body-Post");
+let Image_post = document.getElementById("Image-Post");
 let Cards = document.getElementById("Cards");
-let edit_own_post_btn=document.getElementById("edit-own-post-btn")
+let edit_own_post_btn = document.getElementById("edit-own-post-btn")
 
 
-let currentPage=1;
-let lastPage=1;
+let currentPage = 1;
+let lastPage = 1;
 
 // Loader To improve user experience
-window.addEventListener("scroll",()=>{
+window.addEventListener("scroll", () => {
 
-  let endOfPage=window.innerHeight+window.scrollY>=document.body.scrollHeight;
+  let endOfPage = window.innerHeight + window.scrollY >= document.body.scrollHeight;
 
-  if(endOfPage && currentPage <= lastPage){
+  if (endOfPage && currentPage <= lastPage) {
     currentPage++;
     Get_Posts(currentPage);
   }
@@ -24,37 +24,38 @@ window.addEventListener("scroll",()=>{
 
 
 function Get_Posts(page) {
-  let user=JSON.parse(localStorage.getItem("User"));
+  let user = JSON.parse(localStorage.getItem("User"));
 
   toggleLoader(true);
   axios.get(`https://tarmeezacademy.com/api/v1/posts?limit=25&page=${page}`)
-  .then((response) => {
-    toggleLoader(false)
-  let info = response.data.data;
-  let PostTitle = "";
-  
-  lastPage=response.data.meta.last_page;
- 
-  for (let post of info) {
+    .then((response) => {
+      toggleLoader(false)
+      let info = response.data.data;
+      let PostTitle = "";
 
-    if (post.title !== null) {
-      PostTitle = post.title;
-    } else {
-      PostTitle = "";
-    }
+      lastPage = response.data.meta.last_page;
 
-    let button1=``;
-    let button2=``;
-    
-    if(user!==null){
-      if(user.id===post.author.id){
-        button1=` <button data-bs-toggle="modal"  data-bs-target="#edit-post-modal" id="edit-own-post-btn" onclick="edit_post_clicked('${encodeURIComponent(JSON.stringify(post))}')" style="float:right;" type="button" class="btn btn-secondary">Edit</button>`;
-        button2=`<button data-bs-toggle="modal"  data-bs-target="#delete-post-modal" onclick="confirm_delete_alert(${post.author.id},${post.id})" id="delete-post-btn" style="float:right;" type="button" class="btn btn-danger mx-1">Delete</button>`;
-      }
-    }
-    
+      for (let post of info) {
 
-    let varible = `
+
+        if (post.title !== null) {
+          PostTitle = post.title;
+        } else {
+          PostTitle = "";
+        }
+
+        let button1 = ``;
+        let button2 = ``;
+
+        if (user !== null) {
+          if (user.id === post.author.id) {
+            button1=`<a  data-bs-toggle="modal"  data-bs-target="#edit-post-modal" id="edit-own-post-btn" onclick="edit_post_clicked('${encodeURIComponent(JSON.stringify(post))}')" style="float:right; font-size:25px; cursor:pointer;"><i class="fa-regular fa-pen-to-square text-secondary"></i></a>`
+            button2=`<a data-bs-toggle="modal"  data-bs-target="#delete-post-modal" onclick="confirm_delete_alert(${post.author.id},${post.id})" id="delete-post-btn" style="float:right; font-size:25px; cursor:pointer;"><i class="fa-solid fa-trash text-danger"></i></a>`;
+          }
+        }
+
+
+        let varible = `
  <div class="card shadow-lg">
   <div class="card-header d-flex justify-content-between ">
 
@@ -63,13 +64,13 @@ function Get_Posts(page) {
      <b>${post.author.username}</b>
     </div>
 
-    <div id="post-buttons">
+    <div id="post-buttons" style="display:flex; gap:6px">
    ${button1}
     ${button2}
     </div>
 
   </div>
-  <div style="cursor: pointer;" onclick="Post_Details_clicked(${post.id})" class="card-body">
+  <div style="cursor: pointer;" onclick="Post_Details_clicked('${encodeURIComponent(JSON.stringify(post))}')" class="card-body">
     <img src=${post.image} class="w-100" style="height: 450px;"/>
     <p class="card-title" style="color: rgb(130, 128, 128);">${post.created_at}</p>
     <h6 id="title-post">${PostTitle}</h6>
@@ -84,36 +85,34 @@ function Get_Posts(page) {
 
       <span>${post.comments_count} Comments</span>
 
-      <div class="d-flex gap-1">
-        <div class="rounded-3" style="background-color:grey; color:white; padding:0 5px">${post.tags}</div>
-        <div class="rounded-3" style="background-color:grey; color:white; padding:0 5px">${post.tags}</div>
-      </div>
 
     </div>
 </div>
 `;
 
-    Cards.innerHTML += varible;
-
-    }
-  });
- }
-
- Get_Posts();
 
 
+        Cards.innerHTML += varible;
 
+      }
+    });
+}
 
+Get_Posts();
 
 
 
-function add_post_clicked(){
-  document.getElementById("add-post-title").innerHTML="Create new Post";
-  add_edit_post_btn.innerHTML="Create";
-  document.getElementById("input-check").value="";
+
+
+
+
+function add_post_clicked() {
+  document.getElementById("add-post-title").innerHTML = "Create new Post";
+  add_edit_post_btn.innerHTML = "Create";
+  document.getElementById("input-check").value = "";
   let postmodal = new bootstrap.Modal(document.getElementById("add-post-modal"));
   postmodal.toggle();
-  }
+}
 
 
 
